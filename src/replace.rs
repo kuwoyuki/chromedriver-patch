@@ -44,7 +44,7 @@ pub fn cache_name(haystack: &[u8], pattern: Regex) -> Cow<[u8]> {
     })
 }
 
-pub fn by_whitespace(haystack: &[u8], pattern: Regex) -> Cow<[u8]> {
+pub fn with_whitespace(haystack: &[u8], pattern: Regex) -> Cow<[u8]> {
     pattern.replace_all_cow(Cow::Borrowed(haystack), |c: &Captures| {
         let repl = b"\n".repeat(c[0].len());
         println!("Replaced {} with newlines", String::from_utf8_lossy(&c[0]),);

@@ -21,11 +21,11 @@ fn main() {
     println!("Patching: {}", path);
 
     let cow_bin = Cow::Borrowed(&binary);
-    let mod_bin = replace::by_whitespace(
+    let mod_bin = replace::with_whitespace(
         &cow_bin,
         Regex::new(r#"window\.cdc_[a-zA-Z0-9]{22}_(Array|Promise|Symbol) = window\.(Array|Promise|Symbol);"#).unwrap()
     );
-    let mod_bin = replace::by_whitespace(
+    let mod_bin = replace::with_whitespace(
         &mod_bin,
         Regex::new(r#"window\.cdc_[a-zA-Z0-9]{22}_(Array|Promise|Symbol) \|\|"#).unwrap(),
     );
