@@ -27,9 +27,11 @@ RUN apt-get install -y xvfb dbus-x11 gnupg wget curl unzip --no-install-recommen
     wget -q --continue -P /chromedriver "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip /chromedriver/chromedriver* -d /usr/local/bin/
 
+RUN apt-get install -y x11vnc fluxbox psmisc xrdp
+
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 COPY --from=cargo-build /usr/src/myapp/target/release/patch-cd /usr/local/bin/patch-cd
-COPY entrypoint.sh /
+COPY entrypoint_vnc.sh /
 
-ENTRYPOINT ["/entrypoint.sh", "/usr/local/bin/patch-cd"]
+ENTRYPOINT ["/entrypoint_vnc.sh", "/usr/local/bin/patch-cd"]
