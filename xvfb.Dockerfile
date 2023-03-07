@@ -17,7 +17,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -qqy && apt-get install -y --no-install-recommends ca-certificates
 RUN update-ca-certificates
-RUN apt-get install -y gnupg wget curl unzip --no-install-recommends && \
+RUN apt-get install -y xvfb dbus-x11 gnupg wget curl unzip --no-install-recommends && \
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub > /usr/share/keyrings/chrome.pub && \
     echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/chrome.pub] http://dl.google.com/linux/chrome/deb/ stable main' > /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update -qqy && \
@@ -28,6 +28,8 @@ RUN apt-get install -y gnupg wget curl unzip --no-install-recommends && \
     unzip /chromedriver/chromedriver* -d /usr/local/bin/
 
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
+
 COPY --from=cargo-build /usr/src/myapp/target/release/patch-cd /usr/local/bin/patch-cd
+COPY entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh", "/usr/local/bin/patch-cd"]
