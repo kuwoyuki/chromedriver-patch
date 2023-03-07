@@ -30,4 +30,4 @@ RUN apt-get install -y gnupg wget curl unzip --no-install-recommends && \
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 COPY --from=cargo-build /usr/src/myapp/target/release/patch-cd /usr/local/bin/patch-cd
 
-ENTRYPOINT ["/entrypoint.sh", "/usr/local/bin/patch-cd"]
+ENTRYPOINT ["/usr/local/bin/patch-cd"]
